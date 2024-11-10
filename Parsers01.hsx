@@ -1,0 +1,19 @@
+-- First parser from string to natural number
+
+naturalFromString :: String -> Maybe Natural
+
+-- We will need some helpers, like
+
+isDigit :: Char -> Bool
+
+isDigit '0' = True
+isDigit '1' = True
+isDigit '2' = True
+isDigit '3' = True
+isDigit '4' = True
+isDigit '5' = True
+isDigit '6' = True
+isDigit '7' = True
+isDigit '8' = True
+isDigit '9' = True
+isDigit _ = False
