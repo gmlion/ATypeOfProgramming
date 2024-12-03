@@ -1,0 +1,9 @@
+-- First parser from string to natural number
+
+naturalFromString :: String -> Maybe Natural
+
+-- We will need some helpers, like
+
+isDigit :: Char -> Bool
+
+
