@@ -31,6 +31,7 @@ data Digit =
     | Seven
     | Eight
     | Nine
+    deriving (Show)
 
 parseDigit :: Parser String Digit
 parseDigit =
@@ -38,13 +39,30 @@ parseDigit =
         \c ->
             case c of
             n:xs | n == '0' -> (xs, Just Zero)
+                 | n == '1' -> (xs, Just One)
+                 | n == '2' -> (xs, Just Two)
+                 | n == '3' -> (xs, Just Three)
+                 | n == '4' -> (xs, Just Four)
+                 | n == '5' -> (xs, Just Five)
+                 | n == '6' -> (xs, Just Six)
+                 | n == '7' -> (xs, Just Seven)
+                 | n == '8' -> (xs, Just Eight)
+                 | n == '9' -> (xs, Just Nine)
+            nomatch -> (nomatch, Nothing)
     )
 
-parseMany :: Parser -> Parser
+parseMany :: Parser String b -> Parser String [b]
 parseMany parser =
     Parser (
         \s ->
-            
+            let parseManyInner res s = case runParser parser s of
+                    ([], Just p) -> ([], Just p : res)
+                    ([], Nothing) -> ([], res)
+                    (rest, Nothing) -> (rest, res)
+                    (rest, Just p) -> parseManyInner (Just p : res) rest
+                (rest, parsed) = parseManyInner [] s
+                in
+                    (rest, sequenceA . reverse $ parsed)
     )
     
 
